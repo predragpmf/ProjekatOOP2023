@@ -30,16 +30,19 @@ public class Karta {
         }
         this.posjetilacPozorista = PosjetilacPozorista.getPosjetilacPozoristaById(posjetilacPozoristaId);
         this.brojKarta = brojKarta;
-        if (!vecPostoji()) {
-            sveKarte.add(this);
-        } else {
-            System.err.println("Nema vise slobodnih mijesta!");
+        if (this.izvodjenjePredstave != null && this.posjetilacPozorista != null) {
+            this.izvodjenjePredstave.setBrojRezervisanihMjesta(brojKarta);
+            if (slobodno()) {
+                sveKarte.add(this);
+            } else {
+                System.err.println("Nema vise slobodnih mjesta!");
+            }
         }
     }
 
-    private boolean vecPostoji() {
-        // TODO
-        return false;
+    private boolean slobodno() {
+        return this.izvodjenjePredstave.getBrojRezervisanihMjesta() <
+                this.izvodjenjePredstave.getPozoriste().getBrojSjedista();
     }
 
     public int getId() {

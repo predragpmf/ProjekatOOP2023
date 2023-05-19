@@ -10,6 +10,7 @@ public class IzvodjenjePredstave {
     private Pozoriste pozoriste;
     private double cijena;
     private Timestamp datumIVrijeme;
+    private int brojRezervisanihMjesta;
 
     public static ArrayList<IzvodjenjePredstave> svaIzvodjenjaPredstava = new ArrayList<>();
 
@@ -19,6 +20,7 @@ public class IzvodjenjePredstave {
         this.pozoriste = Pozoriste.getPozoristeById(pozoristeId);
         this.cijena = cijena;
         this.datumIVrijeme = datumIVrijeme;
+        this.brojRezervisanihMjesta = 0;
         if (this.predstava != null && this.pozoriste != null) {
             if (!vecPostoji()) {
                 svaIzvodjenjaPredstava.add(this);
@@ -67,6 +69,14 @@ public class IzvodjenjePredstave {
 
     public Timestamp getDatumIVrijeme() {
         return datumIVrijeme;
+    }
+
+    public int getBrojRezervisanihMjesta() {
+        return brojRezervisanihMjesta;
+    }
+
+    public void setBrojRezervisanihMjesta(int brojRezervisanihMjesta) {
+        this.brojRezervisanihMjesta += brojRezervisanihMjesta;
     }
 
 }

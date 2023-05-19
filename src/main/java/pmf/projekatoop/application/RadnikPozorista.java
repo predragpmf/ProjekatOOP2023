@@ -13,8 +13,8 @@ public class RadnikPozorista {
     
     public static ArrayList<RadnikPozorista> sviRadniciPozorista = new ArrayList<>();
 
-    public RadnikPozorista(int id, int pozoristeId, String ime, String prezime,
-                           String korisnickoIme, String lozinka) {
+    public RadnikPozorista(int id, String ime, String prezime,
+                           String korisnickoIme, String lozinka, int pozoristeId) {
         this.id = id;
         this.pozoriste = Pozoriste.getPozoristeById(pozoristeId);
         if (this.pozoriste != null) {
