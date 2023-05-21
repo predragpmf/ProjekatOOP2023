@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 18, 2023 at 06:13 PM
+-- Generation Time: May 21, 2023 at 08:53 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -283,7 +283,7 @@ CREATE TABLE `posjetilac_pozorista` (
   `id` int(11) NOT NULL,
   `ime` varchar(45) NOT NULL,
   `prezime` varchar(45) NOT NULL,
-  `korisincko_ime` varchar(45) NOT NULL,
+  `korisnicko_ime` varchar(45) NOT NULL,
   `lozinka` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -291,8 +291,10 @@ CREATE TABLE `posjetilac_pozorista` (
 -- Dumping data for table `posjetilac_pozorista`
 --
 
-INSERT INTO `posjetilac_pozorista` (`id`, `ime`, `prezime`, `korisincko_ime`, `lozinka`) VALUES
-(1, 'Jovana', 'Jovanović', 'jovana_jovanovic', 'b3f5d95fb29b32cf1a49c3fed3ef2986');
+INSERT INTO `posjetilac_pozorista` (`id`, `ime`, `prezime`, `korisnicko_ime`, `lozinka`) VALUES
+(1, 'Jovana', 'Jovanović', 'jovana_jovanovic', 'b3f5d95fb29b32cf1a49c3fed3ef2986'),
+(2, 'Simo', 'Simic', 'simo_simic', 'b485783fcd0ef9e0a643034a60c98db9'),
+(3, 'Stevan', 'Stevanovic', 'stevan_stevanovic', '00dc63516932f2a2621f55648ee4a6a9');
 
 -- --------------------------------------------------------
 
@@ -458,7 +460,7 @@ ALTER TABLE `osoblje_predstave`
 -- AUTO_INCREMENT for table `posjetilac_pozorista`
 --
 ALTER TABLE `posjetilac_pozorista`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `pozoriste`

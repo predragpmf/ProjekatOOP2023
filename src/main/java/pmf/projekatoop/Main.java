@@ -1,8 +1,12 @@
 package pmf.projekatoop;
 
+import pmf.projekatoop.database.UcitavanjeBaze;
+import pmf.projekatoop.gui.MainGUI;
+
 public class Main {
     public static void main(String[] args) {
-        pmf.projekatoop.database.UcitavanjeBaze.ucitavanje();
-        pmf.projekatoop.gui.HelloApplication.main(args);
+        UcitavanjeBaze.ucitavanje();
+        MainGUI.main(args);
+        UcitavanjeBaze.db.prekidVeze();
     }
 }

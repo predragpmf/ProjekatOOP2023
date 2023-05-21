@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pmf.projekatoop.gui.Login">
+   <children>
+      <TextField fx:id="loginKorisnickoImeField" layoutX="223.0" layoutY="144.0" />
+      <PasswordField fx:id="loginLozinkaField" layoutX="223.0" layoutY="208.0" />
+      <Button fx:id="loginButton" layoutX="272.0" layoutY="251.0" mnemonicParsing="false" onAction="#promjeniScenuLoginButton" text="Prijava" />
+      <Button layoutX="259.0" layoutY="299.0" mnemonicParsing="false" onAction="#promijeniScenuRegistracija" text="Registruj se" />
+      <Text layoutX="223.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Korisničko ime" />
+      <Text layoutX="223.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lozinka" />
+   </children>
+</AnchorPane>

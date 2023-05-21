@@ -32,6 +32,7 @@ public class BazaPodataka {
                 e.printStackTrace();
             }
         }
+        System.out.println("Veza sa bazom podataka prekinuta!");
     }
 
     // Vraca vezu:

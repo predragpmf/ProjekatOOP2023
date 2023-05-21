@@ -2,14 +2,9 @@ package pmf.projekatoop.application;
 
 import java.util.ArrayList;
 
-public class RadnikPozorista {
+public class RadnikPozorista extends Korisnik {
 
-    private int id;
     private Pozoriste pozoriste;
-    private String ime;
-    private String prezime;
-    private String korisnickoIme;
-    private String lozinka;
     
     public static ArrayList<RadnikPozorista> sviRadniciPozorista = new ArrayList<>();
 
@@ -24,6 +19,7 @@ public class RadnikPozorista {
             this.lozinka = lozinka;
             if (!vecPostoji()) {
                 sviRadniciPozorista.add(this);
+                sviKorisnici.add(this);
             } else {
                 System.err.println("Radnik pozorista korisnickoIme:" + korisnickoIme + " vec postoji!");
             }
@@ -41,28 +37,8 @@ public class RadnikPozorista {
         return false;
     }
 
-    public int getId() {
-        return id;
-    }
-
     public Pozoriste getPozoriste() {
         return pozoriste;
-    }
-
-    public String getIme() {
-        return ime;
-    }
-
-    public String getPrezime() {
-        return prezime;
-    }
-
-    public String getKorisnickoIme() {
-        return korisnickoIme;
-    }
-
-    public String getLozinka() {
-        return lozinka;
     }
 
 }
