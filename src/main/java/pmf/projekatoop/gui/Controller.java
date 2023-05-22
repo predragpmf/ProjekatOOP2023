@@ -1,6 +1,7 @@
 package pmf.projekatoop.gui;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -39,11 +40,13 @@ public class Controller {
         }
     }
 
+    @FXML
     protected void promijeniScenuLogin(ActionEvent event) {
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Parent loginParent = FXMLLoader.load(getClass().getResource("loginView.fxml"));
             Scene loginScene = new Scene(loginParent);
+            stage.setResizable(false);
             stage.setScene(loginScene);
             stage.show();
         } catch (IOException e) {

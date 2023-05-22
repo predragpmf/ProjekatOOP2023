@@ -7,7 +7,7 @@ public class Osoblje {
     private int id;
     private String ime;
     private String prezime;
-    private enum Tipovi {
+    public enum Tipovi {
         AUTOR,
         REZISER,
         GLUMAC

@@ -6,7 +6,7 @@ public class Predstava {
 
     private int id;
     private String naziv;
-    private enum Zanrovi {
+    public enum Zanrovi {
         KOMEDIJA,
         FARSA,
         SATIRA,

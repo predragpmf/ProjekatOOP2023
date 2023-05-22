@@ -48,4 +48,47 @@ public class OsobljePredstave {
         return predstava;
     }
 
+    public static Osoblje getOsobljeByTip(int idPredstave, String tip) {
+        for (OsobljePredstave op : svoOsobljePredstava) {
+            if (op.getPredstava().getId() == idPredstave) {
+                if (op.getOsoblje().getTip().toString().equals(tip)) {
+                    return op.getOsoblje();
+                }
+            }
+        }
+        return null;
+    }
+
+    public static ArrayList<Osoblje> getGlumciByPredstavaId(int idPredstave) {
+        ArrayList<Osoblje> glumci = new ArrayList<>();
+        for (OsobljePredstave op : svoOsobljePredstava) {
+            if (op.getPredstava().getId() == idPredstave) {
+                if (op.getOsoblje().getTip().toString().equals("GLUMAC")) {
+                    glumci.add(op.getOsoblje());
+                }
+            }
+        }
+        return glumci;
+    }
+
+    public static ArrayList<Osoblje> getSvoOsobljeByPredstavaId(int idPredstave) {
+        ArrayList<Osoblje> osoblje = new ArrayList<>();
+        for (OsobljePredstave op : svoOsobljePredstava) {
+            if (op.getPredstava().getId() == idPredstave) {
+                osoblje.add(op.getOsoblje());
+            }
+        }
+        return osoblje;
+    }
+
+    public static ArrayList<Predstava> getPredstaveByOsobljeId(int osobljeId) {
+        ArrayList<Predstava> predstave = new ArrayList<>();
+        for (OsobljePredstave op : svoOsobljePredstava) {
+            if (op.getOsoblje().getId() == osobljeId) {
+                predstave.add(op.getPredstava());
+            }
+        }
+        return predstave;
+    }
+
 }

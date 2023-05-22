@@ -34,6 +34,8 @@ public class Login extends Controller implements Initializable {
         if (korisnik != null) {
             if (korisnik.getLozinka().equals(hesLozinka)) {
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setResizable(false);
+                Korisnik.prijavljeniKorisnik = korisnik;
                 if (korisnik instanceof RadnikPozorista) {
                     Parent radnikParent = FXMLLoader.load(getClass().getResource("radnikView.fxml"));
                     Scene radnikScene = new Scene(radnikParent, 800, 600);
@@ -43,7 +45,6 @@ public class Login extends Controller implements Initializable {
                     Scene posjetilacScene = new Scene(posjetilacParent, 800, 600);
                     stage.setScene(posjetilacScene);
                 }
-                Korisnik.prijavljeniKorisnik = korisnik;
                 stage.show();
             } else {
                 prozorObavjestenja("Greška", "Pogresna lozinka!");
@@ -62,6 +63,7 @@ public class Login extends Controller implements Initializable {
         Parent registracijaParent = FXMLLoader.load(getClass().getResource("registracijaView.fxml"));
         Scene registracijaScene = new Scene(registracijaParent);
         stage.setScene(registracijaScene);
+        stage.setResizable(false);
         stage.show();
     }
 

@@ -2,6 +2,7 @@ package pmf.projekatoop.application;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class IzvodjenjePredstave {
 
@@ -77,6 +78,28 @@ public class IzvodjenjePredstave {
 
     public void setBrojRezervisanihMjesta(int brojRezervisanihMjesta) {
         this.brojRezervisanihMjesta += brojRezervisanihMjesta;
+    }
+
+    public static ArrayList<IzvodjenjePredstave> getNarednePredstavePozorista(Pozoriste p) {
+        ArrayList<IzvodjenjePredstave> predstave = new ArrayList<>();
+        for (IzvodjenjePredstave ip : svaIzvodjenjaPredstava) {
+            if (ip.getPozoriste().equals(p)) {
+                if (ip.getDatumIVrijeme().getTime() > System.currentTimeMillis()) {
+                    predstave.add(ip);
+                }
+            }
+        }
+        return predstave;
+    }
+
+    public static ArrayList<Predstava> getSvePredstavePozorista(Pozoriste p) {
+        ArrayList<Predstava> predstave = new ArrayList<>();
+        for (IzvodjenjePredstave ip : svaIzvodjenjaPredstava) {
+            if (ip.getPozoriste().equals(p)) {
+                predstave.add(ip.getPredstava());
+            }
+        }
+        return predstave;
     }
 
 }

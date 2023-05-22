@@ -65,4 +65,14 @@ public class Karta {
         return brojKarta;
     }
 
+    public static ArrayList<Karta> getKarteByPosjetilacId(int posjetilacId) {
+        ArrayList<Karta> karte = new ArrayList<>();
+        for (Karta k : sveKarte) {
+            if (k.getPosjetilacPozorista().getId() == posjetilacId) {
+                karte.add(k);
+            }
+        }
+        return karte;
+    }
+
 }

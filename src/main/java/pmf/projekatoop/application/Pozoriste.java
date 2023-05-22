@@ -43,6 +43,15 @@ public class Pozoriste {
         return null;
     }
 
+    public static Pozoriste getPozoristeByNazivIGrad(String naziv, String grad) {
+        for (Pozoriste p : svaPozorista) {
+            if (p.getNaziv().equals(naziv) && p.getGrad().equals(grad)) {
+                return p;
+            }
+        }
+        return null;
+    }
+
     public int getId() {
         return id;
     }
@@ -57,6 +66,16 @@ public class Pozoriste {
 
     public int getBrojSjedista() {
         return brojSjedista;
+    }
+
+    public static ArrayList<String> getSpisakPozorista() {
+        ArrayList<String> pozorista = new ArrayList<>();
+        String pozoriste;
+        for (Pozoriste p : svaPozorista) {
+            pozoriste = p.getId() + ". " + p.getNaziv() + ", " + p.getGrad() + "\n";
+            pozorista.add(pozoriste);
+        }
+        return pozorista;
     }
 
 }
