@@ -2,6 +2,7 @@ package pmf.projekatoop.application;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 
 public class IzvodjenjePredstave {
@@ -102,4 +103,9 @@ public class IzvodjenjePredstave {
         return predstave;
     }
 
+    @Override
+    public String toString() {
+        Date datum = new Date(this.getDatumIVrijeme().getTime());
+        return this.predstava.getNaziv()  + ", " + this.pozoriste.getNaziv()  + ", " + datum;
+    }
 }

@@ -74,5 +74,8 @@ public class Predstava {
         return zanr;
     }
 
-
+    @Override
+    public String toString() {
+        return this.naziv;
+    }
 }

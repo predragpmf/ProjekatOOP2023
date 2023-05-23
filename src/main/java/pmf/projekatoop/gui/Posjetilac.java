@@ -17,101 +17,110 @@ public class Posjetilac extends Controller implements Initializable {
     public ComboBox<String> rezOsobljeCombo;
     public TextArea rezTextArea;
     public Spinner<Integer> rezBrojKarataSpinner;
-    public TextArea ktNaredneTextArea;
-    public TextArea ktProsleTextArea;
+    public ListView<String> ktListView;
+    public ListView<String> infoListView;
+    public TextArea infoTextArea;
+    public ComboBox<String> ktComboBox;
+    public Spinner<Integer> ktSpinner;
+    public Button ktOtkaziButton;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        rezTextArea.clear();
-        ktProsleTextArea.clear();
-        ktNaredneTextArea.clear();
+        //rezTextArea.clear();
         for (String s : Pozoriste.getSpisakPozorista()) {
             rezTextArea.appendText(s);
             rezPozoristaCombo.getItems().add(s);
         }
-        ucitajKarte();
-    }
 
-    // Ispisuje podatke o kupljenim kartama:
-    private void ucitajKarte() {
-        for (Karta k : Karta.getKarteByPosjetilacId(Korisnik.prijavljeniKorisnik.getId())) {
-            Predstava p = k.getIzvodjenjePredstave().getPredstava();
-            Date datum = new Date(k.getIzvodjenjePredstave().getDatumIVrijeme().getTime());
-            if (k.getIzvodjenjePredstave().getDatumIVrijeme().getTime() > System.currentTimeMillis()) {
-                ktNaredneTextArea.appendText(p.getNaziv() + ", " + datum + ", karte: " + k.getBrojKarta() + "\n");
-            } else {
-                ktProsleTextArea.appendText(p.getNaziv() + ", " + datum + ", karte: " + k.getBrojKarta() + "\n");
-            }
+        //ktProsleTextArea.clear();
+        //ktNaredneTextArea.clear();
+        ktComboBox.getItems().add("Rezervisane karte");
+        ktComboBox.getItems().add("Istekle karte");
+        ktOtkaziButton.setVisible(false);
+        ktSpinner.setVisible(false);
+
+        //infoListView.getItems().clear();
+        //infoTextArea.clear();
+        for (Osoblje o : Osoblje.svoOsoblje) {
+            infoListView.getItems().add(o.getId() + ". " + o);
         }
     }
 
     // ComboBox za odabir pozorista:
     public void odabirPozorista() {
-        int pozoristeId = Integer.parseInt(rezPozoristaCombo.getValue().split("\\.")[0]);
-        Pozoriste odabranoPozoriste = Pozoriste.getPozoristeById(pozoristeId);
-        rezPredstaveCombo.getItems().clear();
-        rezOsobljeCombo.getItems().clear();
-        rezTextArea.clear();
-        for (IzvodjenjePredstave ip : IzvodjenjePredstave.getNarednePredstavePozorista(odabranoPozoriste)) {
-            Date datum = new Date(ip.getDatumIVrijeme().getTime());
-            String tekst = ip.getId() + ". " + ip.getPredstava().getNaziv() + ", " + datum + "\n";
-            rezTextArea.appendText(tekst);
-            rezPredstaveCombo.getItems().add(tekst);
+        if (rezPozoristaCombo.getValue() != null) {
+            int pozoristeId = Integer.parseInt(rezPozoristaCombo.getValue().split("\\.")[0]);
+            Pozoriste odabranoPozoriste = Pozoriste.getPozoristeById(pozoristeId);
+            rezPredstaveCombo.getItems().clear();
+            rezOsobljeCombo.getItems().clear();
+            rezTextArea.clear();
+            for (IzvodjenjePredstave ip : IzvodjenjePredstave.getNarednePredstavePozorista(odabranoPozoriste)) {
+                Date datum = new Date(ip.getDatumIVrijeme().getTime());
+                String tekst = ip.getId() + ". " + ip.getPredstava().getNaziv() + ", " + datum + "\n";
+                rezTextArea.appendText(tekst);
+                rezPredstaveCombo.getItems().add(tekst);
+            }
         }
     }
 
     // ComboBox za odabir predstave:
     public void odabirPredstave() {
         rezOsobljeCombo.getItems().clear();
+        rezTextArea.clear();
 
+        if (rezPredstaveCombo.getValue() != null) {
+            int izvodjenjePredstaveId = Integer.parseInt(rezPredstaveCombo.getValue().split("\\.")[0]);
+            IzvodjenjePredstave odabranoIzvodjenje = IzvodjenjePredstave.getIzvodjenjePredstaveById(izvodjenjePredstaveId);
+            if (odabranoIzvodjenje != null) {
+                Predstava odabranaPredstava = odabranoIzvodjenje.getPredstava();
 
-        int izvodjenjePredstaveId = Integer.parseInt(rezPredstaveCombo.getValue().split("\\.")[0]);
-        IzvodjenjePredstave odabranoIzvodjenje = IzvodjenjePredstave.getIzvodjenjePredstaveById(izvodjenjePredstaveId);
-        if (odabranoIzvodjenje != null) {
-            Predstava odabranaPredstava = odabranoIzvodjenje.getPredstava();
+                Osoblje autor = OsobljePredstave.getOsobljeByTip(odabranaPredstava.getId(), "AUTOR");
+                Osoblje reziser = OsobljePredstave.getOsobljeByTip(odabranaPredstava.getId(), "REZISER");
 
-            Osoblje autor = OsobljePredstave.getOsobljeByTip(odabranaPredstava.getId(), "AUTOR");
-            Osoblje reziser = OsobljePredstave.getOsobljeByTip(odabranaPredstava.getId(), "REZISER");
+                rezTextArea.appendText("Naziv: " + odabranaPredstava + "\n");
+                rezTextArea.appendText("Žanr: " + odabranaPredstava.getZanr().toString() + "\n");
+                rezTextArea.appendText("Cijena: " + odabranoIzvodjenje.getCijena() + "KM \n");
+                rezTextArea.appendText("Termin: " + new Date(odabranoIzvodjenje.getDatumIVrijeme().getTime()) + "\n");
+                if (autor != null && reziser != null) {
+                    rezTextArea.appendText("Autor: " + autor + "\n");
+                    rezTextArea.appendText("Režiser: " + reziser + "\n");
+                } else {
+                    System.err.println("Osoblje nije pronadjeno!");
+                }
+                rezTextArea.appendText("Glumci: \n");
+                for (Osoblje osoblje : OsobljePredstave.getGlumciByPredstavaId(odabranaPredstava.getId())) {
+                    rezTextArea.appendText(osoblje + "\n");
+                }
+                for (Osoblje osoblje : OsobljePredstave.getSvoOsobljeByPredstavaId(odabranaPredstava.getId())) {
+                    rezOsobljeCombo.getItems().add(osoblje.getId() + ". " + osoblje);
+                }
 
-            rezTextArea.appendText("Naziv: " + odabranaPredstava.getNaziv() + "\n");
-            rezTextArea.appendText("Žanr: " + odabranaPredstava.getZanr().toString() + "\n");
-            rezTextArea.appendText("Cijena: " + odabranoIzvodjenje.getCijena() + "KM \n");
-            rezTextArea.appendText("Termin: " + new Date(odabranoIzvodjenje.getDatumIVrijeme().getTime()) + "\n");
-            if (autor != null && reziser != null) {
-                rezTextArea.appendText("Autor: " + autor.getIme() + " " + autor.getPrezime() + "\n");
-                rezTextArea.appendText("Režiser: " + reziser.getIme() + " " + reziser.getPrezime() + "\n");
+                int maksBrojKarata = odabranoIzvodjenje.getPozoriste().getBrojSjedista() -
+                        odabranoIzvodjenje.getBrojRezervisanihMjesta();
+                SpinnerValueFactory<Integer> brojKarata = new SpinnerValueFactory
+                        .IntegerSpinnerValueFactory(1, maksBrojKarata, 1);
+                rezBrojKarataSpinner.setValueFactory(brojKarata);
             } else {
-                System.err.println("Osoblje nije pronadjeno!");
+                System.err.println("Odabrano izvodjenje predstave nije pronadjeno!");
             }
-            rezTextArea.appendText("Glumci: \n");
-            for (Osoblje o : OsobljePredstave.getGlumciByPredstavaId(odabranaPredstava.getId())) {
-                rezTextArea.appendText(o.getIme() + " " + o.getPrezime() + "\n");
-            }
-            for (Osoblje o : OsobljePredstave.getSvoOsobljeByPredstavaId(odabranaPredstava.getId())) {
-                rezOsobljeCombo.getItems().add(o.getId() + ". " + o.getIme() + " " + o.getPrezime());
-            }
-
-            int maksBrojKarata = odabranoIzvodjenje.getPozoriste().getBrojSjedista() -
-                    odabranoIzvodjenje.getBrojRezervisanihMjesta();
-            SpinnerValueFactory<Integer> brojKarata = new SpinnerValueFactory
-                    .IntegerSpinnerValueFactory(1, maksBrojKarata, 1);
-            rezBrojKarataSpinner.setValueFactory(brojKarata);
-        } else {
-            System.err.println("Odabrano izvodjenje predstave nije pronadjeno!");
         }
     }
 
     // ComboBox za odabir osoblja:
     public void odabirOsoblja() {
         rezTextArea.clear();
-        int osobljeId = Integer.parseInt(rezOsobljeCombo.getValue().split("\\.")[0]);
-        Osoblje osoblje = Osoblje.getOsobljeById(osobljeId);
-        rezTextArea.appendText(osoblje.getIme() + " " + osoblje.getPrezime() + "\n");
-        rezTextArea.appendText(osoblje.getTip().toString() + "\n");
-        rezTextArea.appendText("Predstave:\n");
-        for (Predstava p : OsobljePredstave.getPredstaveByOsobljeId(osobljeId)) {
-            rezTextArea.appendText(p.getNaziv() + "\n");
+        if (rezOsobljeCombo.getValue() != null) {
+            int osobljeId = Integer.parseInt(rezOsobljeCombo.getValue().split("\\.")[0]);
+            Osoblje osoblje = Osoblje.getOsobljeById(osobljeId);
+            if (osoblje != null) {
+                rezTextArea.appendText(osoblje + "\n");
+                rezTextArea.appendText(osoblje.getTip().toString() + "\n");
+                rezTextArea.appendText("Predstave:\n");
+                for (Predstava predstava : OsobljePredstave.getPredstaveByOsobljeId(osobljeId)) {
+                    rezTextArea.appendText(predstava + "\n");
+                }
+            }
         }
     }
 
@@ -123,23 +132,108 @@ public class Posjetilac extends Controller implements Initializable {
             if (ip != null) {
                 int brojKarata = rezBrojKarataSpinner.getValue();
                 if (ip.getBrojRezervisanihMjesta() < ip.getPozoriste().getBrojSjedista()) {
-                    int id = IzmjenaBaze.posaljiKarta(izvodjenjePredstaveId, 2, Korisnik.prijavljeniKorisnik.getId(),
-                            brojKarata);
-                    new Karta(id, izvodjenjePredstaveId, 2, Korisnik.prijavljeniKorisnik.getId(), brojKarata);
+                    int postojiId = Karta.vecPostojiKarta(Korisnik.prijavljeniKorisnik.getId(), izvodjenjePredstaveId);
+                    if (postojiId != -1) {
+                        Karta karta = Karta.getKartaById(postojiId);
+                        if (karta != null) {
+                            IzmjenaBaze.izmjenaKarte(karta.getBrojKarta() + brojKarata, postojiId);
+                            karta.setBrojKarta(karta.getBrojKarta() + brojKarata);
+                        } else {
+                            System.err.println("Karta ne postoji! (Posjetilac.rezervisiTipka())");
+                        }
+                    } else {
+                        int id = IzmjenaBaze.posaljiKarta(izvodjenjePredstaveId, 2, Korisnik.prijavljeniKorisnik.getId(),
+                                brojKarata);
+                        new Karta(id, izvodjenjePredstaveId, 2, Korisnik.prijavljeniKorisnik.getId(), brojKarata);
+                    }
                     if (ip.getDatumIVrijeme().getTime() < 172800000) {
                         prozorObavjestenja("Upozorenje!",
                                 "Ostalo je manje od 48 sati da prezmete rezervisanu kartu");
                     }
-                    ktProsleTextArea.clear();
-                    ktNaredneTextArea.clear();
-                    ucitajKarte();
-                    System.out.println("Karta kupljena!");
+                    odabirTipaKarte();
+                    //System.out.println("Karta rezervisana!");
+                    prozorObavjestenja("Gotovo", "Karta uspješno rezervisana!");
                 } else {
                     prozorObavjestenja("Greška", "Nije dostupno nijedno slobodno mjesto.");
                 }
             } else {
                 System.err.println("Odabrano izvodjenje predstave nije pronadjeno!");
             }
+        }
+    }
+
+    // Odaberi tip karte ComboBox:
+    public void odabirTipaKarte() {
+        ktListView.getItems().clear();
+        if (ktComboBox.getValue().equals("Rezervisane karte")) {
+            ktOtkaziButton.setVisible(true);
+            ktSpinner.setVisible(true);
+            for (Karta k : Karta.getKarteByPosjetilacId(Korisnik.prijavljeniKorisnik.getId())) {
+                IzvodjenjePredstave ip = k.getIzvodjenjePredstave();
+                if (ip.getDatumIVrijeme().getTime() > System.currentTimeMillis()) {
+                    ktListView.getItems().add(k.getId() + ". " + ip.toString() + ", karte: " + k.getBrojKarta());
+                    //ktTextArea.appendText(ip.toString() + ", karte: " + k.getBrojKarta() + "\n");
+                }
+            }
+        } else if (ktComboBox.getValue().equals("Istekle karte")) {
+            ktOtkaziButton.setVisible(false);
+            ktSpinner.setVisible(false);
+            ktSpinner.setValueFactory(null);
+            for (Karta k : Karta.getKarteByPosjetilacId(Korisnik.prijavljeniKorisnik.getId())) {
+                IzvodjenjePredstave ip = k.getIzvodjenjePredstave();
+                if (ip.getDatumIVrijeme().getTime() < System.currentTimeMillis()) {
+                    ktListView.getItems().add(k.getId() + ". " + ip.toString() + ", karte: " + k.getBrojKarta());
+                    //ktTextArea.appendText(ip.toString() + ", karte: " + k.getBrojKarta() + "\n");
+                }
+            }
+        }
+    }
+
+    public void odabirInformacije() {
+        infoTextArea.clear();
+        int osobljeId = Integer.parseInt(infoListView.getSelectionModel().getSelectedItem().split("\\.")[0]);
+        Osoblje osoblje = Osoblje.getOsobljeById(osobljeId);
+        if (osoblje != null) {
+            infoTextArea.appendText(osoblje + "\n");
+            infoTextArea.appendText(osoblje.getTip().toString() + "\n");
+            infoTextArea.appendText("Predstave:\n");
+            for (Predstava predstava : OsobljePredstave.getPredstaveByOsobljeId(osobljeId)) {
+                infoTextArea.appendText(predstava + "\n");
+            }
+        }
+    }
+
+    public void odaberiKarte() {
+        if (ktComboBox.getValue().equals("Rezervisane karte")) {
+            String karta = ktListView.getSelectionModel().getSelectedItem();
+            int maksBrojKarata = Integer.parseInt(karta.substring(karta.length() - 1));
+            SpinnerValueFactory<Integer> brojKarata = new SpinnerValueFactory
+                    .IntegerSpinnerValueFactory(1, maksBrojKarata, 1);
+            ktSpinner.setValueFactory(brojKarata);
+        }
+    }
+
+    public void otkaziRezervaciju() {
+        int idKarte = Integer.parseInt(ktListView.getSelectionModel().getSelectedItem().split("\\.")[0]);
+        Karta karta = Karta.getKartaById(idKarte);
+        int brojKarata = ktSpinner.getValue();
+        IzvodjenjePredstave ip = karta.getIzvodjenjePredstave();
+        if (ip != null) {
+            if ((System.currentTimeMillis() + 172800000) < ip.getDatumIVrijeme().getTime()) {
+                if (brojKarata == karta.getBrojKarta()) {
+                    IzmjenaBaze.brisanjeKarte(idKarte);
+                    Karta.sveKarte.remove(karta);
+                } else {
+                    IzmjenaBaze.izmjenaKarte(karta.getBrojKarta() - brojKarata, idKarte);
+                    karta.setBrojKarta(karta.getBrojKarta() - brojKarata);
+                }
+                prozorObavjestenja("Gotovo", "Karte uspješno otkazane!");
+                odabirTipaKarte();
+            } else {
+                prozorObavjestenja("Otkazivanje nije moguće", "Predstava počinje za manje od 48 sati!");
+            }
+        } else {
+            System.err.println("Izvodjenje predstave ne postoji! (Posjetilac.otkaziRezervaciju())");
         }
     }
 

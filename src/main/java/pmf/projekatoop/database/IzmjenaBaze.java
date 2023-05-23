@@ -44,6 +44,27 @@ public class IzmjenaBaze {
         return id;
     }
 
-    //TODO
+    public static void izmjenaKarte(int noviBrojKarata, int idKarte) {
+        try {
+            String upit = "UPDATE karta SET broj_karta = ? WHERE karta.id = ?";
+            PreparedStatement izjava = UcitavanjeBaze.db.getVeza().prepareStatement(upit);
+            izjava.setInt(1, noviBrojKarata);
+            izjava.setInt(2, idKarte);
+            izjava.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void brisanjeKarte(int idKarte) {
+        try {
+            String upit = "DELETE FROM karta WHERE karta.id = ?";
+            PreparedStatement izjava = UcitavanjeBaze.db.getVeza().prepareStatement(upit);
+            izjava.setInt(1, idKarte);
+            izjava.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

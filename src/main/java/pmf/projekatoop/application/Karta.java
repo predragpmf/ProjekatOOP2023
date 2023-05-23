@@ -65,6 +65,10 @@ public class Karta {
         return brojKarta;
     }
 
+    public void setBrojKarta(int brojKarta) {
+        this.brojKarta = brojKarta;
+    }
+
     public static ArrayList<Karta> getKarteByPosjetilacId(int posjetilacId) {
         ArrayList<Karta> karte = new ArrayList<>();
         for (Karta k : sveKarte) {
@@ -73,6 +77,25 @@ public class Karta {
             }
         }
         return karte;
+    }
+
+    public static Karta getKartaById(int id) {
+        for (Karta k : sveKarte) {
+            if (k.getId() == id) {
+                return k;
+            }
+        }
+        return null;
+    }
+
+    public static int vecPostojiKarta(int posjetilacId, int izvodjenjePredstaveId) {
+        for (Karta k : sveKarte) {
+            if (k.getPosjetilacPozorista().getId() == posjetilacId &&
+                    k.getIzvodjenjePredstave().getId() == izvodjenjePredstaveId) {
+                return k.getId();
+            }
+        }
+        return -1;
     }
 
 }

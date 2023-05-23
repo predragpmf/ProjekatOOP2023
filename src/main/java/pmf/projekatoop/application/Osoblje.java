@@ -72,4 +72,8 @@ public class Osoblje {
         return tip;
     }
 
+    @Override
+    public String toString() {
+        return this.ime + " " + this.prezime;
+    }
 }
