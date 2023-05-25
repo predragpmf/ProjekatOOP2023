@@ -1,11 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pmf.projekatoop.gui.Radnik">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pmf.projekatoop.gui.Radnik">
    <children>
-      <Button layoutX="34.0" layoutY="27.0" mnemonicParsing="false" onAction="#nazadTipka" text="Nazad" />
+      <TabPane prefHeight="600.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Informacije">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TextArea fx:id="infoTextArea" editable="false" layoutX="47.0" layoutY="52.0" prefHeight="417.0" prefWidth="327.0">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </TextArea>
+                        <Text layoutX="47.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Podaci o radniku:" />
+                        <PasswordField fx:id="infoStaraTextBox" layoutX="521.0" layoutY="152.0" />
+                        <PasswordField fx:id="infoNovaTextBox" layoutX="521.0" layoutY="224.0" />
+                        <Button layoutX="564.0" layoutY="302.0" mnemonicParsing="false" onAction="#promjeniLozinku" text="Promijeni" />
+                        <Text layoutX="549.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Promjena lozinke:" />
+                        <Text layoutX="521.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Stara lozinka:" />
+                        <Text layoutX="521.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nova lozinka:" />
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Pozorište">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+      <Button layoutX="747.0" layoutY="2.0" mnemonicParsing="false" onAction="#nazadTipka" text="Odjava" />
    </children>
 </AnchorPane>

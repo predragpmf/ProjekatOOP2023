@@ -67,4 +67,16 @@ public class IzmjenaBaze {
         }
     }
 
+    public static void izmjenaLozinkeRadnika(String novaLozinka, int idRadnikaPozorista) {
+        try {
+            String upit = "UPDATE radnik_pozorista SET lozinka = ? WHERE radnik_pozorista.id = ?";
+            PreparedStatement izjava = UcitavanjeBaze.db.getVeza().prepareStatement(upit);
+            izjava.setString(1, novaLozinka);
+            izjava.setInt(2, idRadnikaPozorista);
+            izjava.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

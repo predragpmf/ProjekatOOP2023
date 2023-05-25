@@ -20,11 +20,16 @@ public class Registracija extends Controller {
         if (Korisnik.getKorisnikByKorisnickoIme(korisnickoIme) == null) {
             String ime = regImeField.getText().strip();
             String prezime = regPrezimeField.getText().strip();
-            String lozinka = hesirajLozinku(regLozinkaField.getText().strip());
-            int id = IzmjenaBaze.posaljiPosjetilacPozorista(ime, prezime, korisnickoIme, lozinka);
-            new PosjetilacPozorista(id, ime, prezime, korisnickoIme, lozinka);
-            prozorObavjestenja("Gotovo", "Korisnik je uspješno registrovan!");
-            promijeniScenuLogin(event);
+            String lozinka = regLozinkaField.getText().strip();
+            if (lozinka.length() < 5) {
+                prozorObavjestenja("Greška", "Lozinka mora biti duža od 5 karaktera!");
+            } else {
+                String lozinkaHes = hesirajLozinku(regLozinkaField.getText().strip());
+                int id = IzmjenaBaze.posaljiPosjetilacPozorista(ime, prezime, korisnickoIme, lozinkaHes);
+                new PosjetilacPozorista(id, ime, prezime, korisnickoIme, lozinkaHes);
+                prozorObavjestenja("Gotovo", "Korisnik je uspješno registrovan!");
+                promijeniScenuLogin(event);
+            }
         } else {
             prozorObavjestenja("Greška", "Korisničko ime je zauzeto!");
             regKorisnickoImeField.clear();

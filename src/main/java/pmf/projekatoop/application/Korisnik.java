@@ -29,6 +29,10 @@ public class Korisnik {
         return lozinka;
     }
 
+    public void setLozinka(String lozinka) {
+        this.lozinka = lozinka;
+    }
+
     public static Korisnik getKorisnikByKorisnickoIme(String korisnickoIme) {
         for (Korisnik k : sviKorisnici) {
             if (k.getKorisnickoIme().equals(korisnickoIme)) {

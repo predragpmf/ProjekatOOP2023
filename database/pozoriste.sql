@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 21, 2023 at 08:53 PM
+-- Generation Time: May 25, 2023 at 04:55 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -35,6 +35,14 @@ CREATE TABLE `izvodjenje_predstave` (
   `datum_i_vrijeme` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `izvodjenje_predstave`
+--
+
+INSERT INTO `izvodjenje_predstave` (`id`, `predstava_id`, `pozoriste_id`, `cijena`, `datum_i_vrijeme`) VALUES
+(1, 2, 1, 15, '2023-06-05 20:00:00'),
+(2, 1, 1, 15, '2023-06-10 19:00:00');
+
 -- --------------------------------------------------------
 
 --
@@ -48,6 +56,14 @@ CREATE TABLE `karta` (
   `posjetilac_id` int(11) DEFAULT NULL,
   `broj_karta` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `karta`
+--
+
+INSERT INTO `karta` (`id`, `izvodjenje_predstave_id`, `status`, `posjetilac_id`, `broj_karta`) VALUES
+(2, 1, 2, 2, 4),
+(3, 2, 2, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -372,9 +388,9 @@ CREATE TABLE `radnik_pozorista` (
 --
 
 INSERT INTO `radnik_pozorista` (`id`, `ime`, `prezime`, `korisnicko_ime`, `lozinka`, `pozoriste_id`) VALUES
-(1, 'Pero', 'Peric', 'pero_peric', 'b8fced7c9eb90e02d6130b98c05d9cf6', 1),
-(2, 'Jovan', 'Jovanovic', 'jovan_jovanovic', '254c665ec089423ad5c4ff905d9c519c', 2),
-(3, 'Nikola', 'Nikolic', 'nikola_nikolic', '10066c2cce5ee1e38b8d2c0752fd5e84', 3);
+(1, 'Pero', 'Perić', 'pero_peric', 'b8fced7c9eb90e02d6130b98c05d9cf6', 1),
+(2, 'Jovan', 'Jovanović', 'jovan_jovanovic', '254c665ec089423ad5c4ff905d9c519c', 2),
+(3, 'Nikola', 'Nikolić', 'nikola_nikolic', '10066c2cce5ee1e38b8d2c0752fd5e84', 3);
 
 --
 -- Indexes for dumped tables
@@ -436,13 +452,13 @@ ALTER TABLE `radnik_pozorista`
 -- AUTO_INCREMENT for table `izvodjenje_predstave`
 --
 ALTER TABLE `izvodjenje_predstave`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `karta`
 --
 ALTER TABLE `karta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `osoblje`
