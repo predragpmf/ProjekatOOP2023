@@ -74,6 +74,15 @@ public class Predstava {
         return zanr;
     }
 
+    public static boolean postoji(String naziv) {
+        for (Predstava p : svePredstave) {
+            if (p.getNaziv().equals(naziv)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
         return this.naziv;

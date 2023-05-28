@@ -56,6 +56,15 @@ public class Osoblje {
         return null;
     }
 
+    public static Osoblje getOsobljeByImeIPrezime(String ime, String prezime) {
+        for (Osoblje o : svoOsoblje) {
+            if (o.getIme().equals(ime) && o.getPrezime().equals(prezime)) {
+                return o;
+            }
+        }
+        return null;
+    }
+
     public int getId() {
         return id;
     }

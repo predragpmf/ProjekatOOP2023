@@ -79,4 +79,56 @@ public class IzmjenaBaze {
         }
     }
 
+    public static int posaljiPredstava(String naziv, int zanr) {
+        int id = 0;
+        try {
+            String upit = "INSERT INTO predstava(naziv, zanr)  VALUES (?,?)";
+            PreparedStatement izjava = UcitavanjeBaze.db.getVeza().prepareStatement(upit, PreparedStatement.RETURN_GENERATED_KEYS);
+            izjava.setString(1, naziv);
+            izjava.setInt(2, zanr);
+            izjava.executeUpdate();
+            ResultSet rs = izjava.getGeneratedKeys();
+            rs.next();
+            id = rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
+
+    public static int posaljiOsobljePredstave(int osobljeId, int predstavaId) {
+        int id = 0;
+        try {
+            String upit = "INSERT INTO osoblje_predstave(osoblje_id, predstava_id)  VALUES (?,?)";
+            PreparedStatement izjava = UcitavanjeBaze.db.getVeza().prepareStatement(upit, PreparedStatement.RETURN_GENERATED_KEYS);
+            izjava.setInt(1, osobljeId);
+            izjava.setInt(2, predstavaId);
+            izjava.executeUpdate();
+            ResultSet rs = izjava.getGeneratedKeys();
+            rs.next();
+            id = rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
+
+    public static int posaljiOsoblje(String ime, String prezime, int tip) {
+        int id = 0;
+        try {
+            String upit = "INSERT INTO osoblje(ime, prezime, tip)  VALUES (?,?,?)";
+            PreparedStatement izjava = UcitavanjeBaze.db.getVeza().prepareStatement(upit, PreparedStatement.RETURN_GENERATED_KEYS);
+            izjava.setString(1, ime);
+            izjava.setString(2, prezime);
+            izjava.setInt(3, tip);
+            izjava.executeUpdate();
+            ResultSet rs = izjava.getGeneratedKeys();
+            rs.next();
+            id = rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
+
 }

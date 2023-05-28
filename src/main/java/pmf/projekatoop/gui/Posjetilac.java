@@ -148,7 +148,7 @@ public class Posjetilac extends Controller implements Initializable {
                     }
                     if (ip.getDatumIVrijeme().getTime() < 172800000) {
                         prozorObavjestenja("Upozorenje!",
-                                "Ostalo je manje od 48 sati da prezmete rezervisanu kartu");
+                                "Ostalo je manje od 48 sati da preuzmete rezervisanu kartu");
                     }
                     odabirTipaKarte();
                     //System.out.println("Karta rezervisana!");

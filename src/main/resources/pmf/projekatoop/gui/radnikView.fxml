@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -34,9 +38,55 @@
           </Tab>
           <Tab text="Pozorište">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ListView fx:id="pozoristeListView" layoutX="67.0" layoutY="74.0" onMouseClicked="#odabirPredstave" prefHeight="429.0" prefWidth="343.0" />
+                        <ComboBox fx:id="pozoristeComboBox" layoutX="67.0" layoutY="36.0" onAction="#odabirVrstePredstave" prefWidth="150.0" />
+                        <TextArea fx:id="pozoristeTextArea" editable="false" layoutX="464.0" layoutY="74.0" prefHeight="258.0" prefWidth="309.0" />
+                        <TextArea fx:id="pozoristeKtTextArea" editable="false" layoutX="464.0" layoutY="357.0" prefHeight="145.0" prefWidth="309.0" />
+                        <Text layoutX="464.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Informacije:" />
+                        <Text layoutX="464.0" layoutY="353.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rezervacije:" />
+                     </children></AnchorPane>
             </content>
           </Tab>
+            <Tab text="Karte">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ListView fx:id="ktPpListView" layoutX="57.0" layoutY="53.0" prefHeight="389.0" prefWidth="358.0" />
+                        <ListView fx:id="ktIpListView" layoutX="439.0" layoutY="53.0" onMouseClicked="#odabirIzvodjenjaPredstave" prefHeight="388.0" prefWidth="309.0" />
+                        <Spinner fx:id="ktSpinner" layoutX="348.0" layoutY="486.0" prefHeight="25.0" prefWidth="53.0" />
+                        <Button layoutX="421.0" layoutY="486.0" mnemonicParsing="false" onAction="#rezervisiKartu" text="Rezerviši" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Predstava">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="predNazivTextBox" layoutX="33.0" layoutY="59.0" />
+                        <ComboBox fx:id="predZanrComboBox" layoutX="244.0" layoutY="59.0" prefWidth="150.0" />
+                        <ListView fx:id="predAutorListView" layoutX="33.0" layoutY="151.0" prefHeight="200.0" prefWidth="200.0" />
+                        <ListView fx:id="predReziserListView" layoutX="245.0" layoutY="151.0" prefHeight="200.0" prefWidth="200.0" />
+                        <ListView fx:id="predGlumciListView" layoutX="457.0" layoutY="151.0" prefHeight="200.0" prefWidth="200.0" />
+                        <Text layoutX="32.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Naziv:" />
+                        <Text layoutX="244.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Žanr:" />
+                        <Text layoutX="33.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Autor:" />
+                        <Text layoutX="245.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Režiser:" />
+                        <Text layoutX="457.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Glumci:" />
+                        <Button layoutX="293.0" layoutY="372.0" mnemonicParsing="false" onAction="#dodajPredstavu" text="Dodaj predstavu" />
+                        <TextField fx:id="predImeTextBox" layoutX="33.0" layoutY="397.0" />
+                        <TextField fx:id="predPrezimeTextBox" layoutX="33.0" layoutY="449.0" />
+                        <ComboBox fx:id="predTipComboBox" layoutX="33.0" layoutY="511.0" prefWidth="150.0" />
+                        <Button layoutX="226.0" layoutY="449.0" mnemonicParsing="false" onAction="#dodajOsoblje" text="Dodaj osoblje" />
+                        <Text layoutX="32.0" layoutY="389.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ime:" />
+                        <Text layoutX="32.0" layoutY="445.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prezime:" />
+                        <Text layoutX="32.0" layoutY="499.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tip:" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
         </tabs>
       </TabPane>
       <Button layoutX="747.0" layoutY="2.0" mnemonicParsing="false" onAction="#nazadTipka" text="Odjava" />
