@@ -83,6 +83,15 @@ public class Predstava {
         return false;
     }
 
+    public static Predstava getPredstavaByNaziv(String naziv) {
+        for (Predstava p : svePredstave) {
+            if (p.getNaziv().equals(naziv)) {
+                return p;
+            }
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         return this.naziv;

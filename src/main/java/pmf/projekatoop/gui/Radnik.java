@@ -1,5 +1,7 @@
 package pmf.projekatoop.gui;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -9,6 +11,10 @@ import pmf.projekatoop.application.*;
 import pmf.projekatoop.database.IzmjenaBaze;
 
 import java.net.URL;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class Radnik extends Controller implements Initializable {
@@ -31,6 +37,12 @@ public class Radnik extends Controller implements Initializable {
     public TextField predImeTextBox;
     public TextField predPrezimeTextBox;
     public ComboBox<String> predTipComboBox;
+    public ListView<String> tmPredstaveListView;
+    public TextArea tmTextArea;
+    public DatePicker tmDatum;
+    public TextField tmSati;
+    public TextField tmMinute;
+    public TextField tmCijena;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -68,6 +80,28 @@ public class Radnik extends Controller implements Initializable {
         predTipComboBox.getItems().add("Glumac");
 
         ispisiOsoblje();
+
+        for (Predstava p : Predstava.svePredstave) {
+            tmPredstaveListView.getItems().add(p.getNaziv());
+        }
+
+        tmSati.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    tmSati.setText(newValue.replaceAll("\\D", ""));
+                }
+            }
+        });
+
+        tmMinute.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    tmSati.setText(newValue.replaceAll("\\D", ""));
+                }
+            }
+        });
     }
 
     private void ispisiIzvodjenjaPredstava() {
@@ -296,6 +330,45 @@ public class Radnik extends Controller implements Initializable {
             predImeTextBox.clear();
             predPrezimeTextBox.clear();
         }
+    }
+
+    public void odabirPredstaveTermini() {
+        tmTextArea.clear();
+        RadnikPozorista rp = (RadnikPozorista) Korisnik.prijavljeniKorisnik;
+        String nazivPredstave = tmPredstaveListView.getSelectionModel().getSelectedItem();
+        Predstava predstava = Predstava.getPredstavaByNaziv(nazivPredstave);
+        if (predstava != null) {
+            for (IzvodjenjePredstave ip : IzvodjenjePredstave.svaIzvodjenjaPredstava) {
+                if (ip.getPredstava().equals(predstava) && ip.getPozoriste().equals(rp.getPozoriste())) {
+                    tmTextArea.appendText(ip.getDatumIVrijeme().toString() + " ");
+                    tmTextArea.appendText(ip.getCijena() + "KM\n");
+                }
+            }
+        }
+
+    }
+
+    public void dodajTermin() {
+        LocalDate datum = tmDatum.getValue();
+        int sati = Integer.parseInt(tmSati.getText());
+        int minute = Integer.parseInt(tmMinute.getText());
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, datum.getYear());
+        calendar.set(Calendar.MONTH, datum.getMonthValue());
+        calendar.set(Calendar.DATE, datum.getDayOfMonth());
+        calendar.set(Calendar.HOUR_OF_DAY, sati);
+        calendar.set(Calendar.MINUTE, minute);
+        Timestamp termin = new Timestamp(calendar.getTimeInMillis());
+        double cijena = Double.parseDouble(tmCijena.getText());
+        Pozoriste pozoriste = ((RadnikPozorista)Korisnik.prijavljeniKorisnik).getPozoriste();
+        Predstava predstava = Predstava.getPredstavaByNaziv(tmPredstaveListView.getSelectionModel().getSelectedItem());
+
+        int id = IzmjenaBaze.posaljiIzvodjenjePredstave(predstava.getId(), pozoriste.getId(), cijena, termin);
+        new IzvodjenjePredstave(id, predstava.getId(), pozoriste.getId(), cijena, termin);
+        prozorObavjestenja("Gotovo", "Dodat novi termin");
+        tmSati.clear();
+        tmMinute.clear();
+        tmCijena.clear();
     }
 
 }

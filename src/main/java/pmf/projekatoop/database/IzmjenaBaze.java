@@ -3,6 +3,7 @@ package pmf.projekatoop.database;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 
 public class IzmjenaBaze {
 
@@ -121,6 +122,26 @@ public class IzmjenaBaze {
             izjava.setString(1, ime);
             izjava.setString(2, prezime);
             izjava.setInt(3, tip);
+            izjava.executeUpdate();
+            ResultSet rs = izjava.getGeneratedKeys();
+            rs.next();
+            id = rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
+
+    public static int posaljiIzvodjenjePredstave(int predstavaId, int pozoristeId, double cijena,
+                                                 Timestamp datumIVrijeme) {
+        int id = 0;
+        try {
+            String upit = "INSERT INTO izvodjenje_predstave(predstava_id, pozoriste_id, cijena, datum_i_vrijeme)  VALUES (?,?,?,?)";
+            PreparedStatement izjava = UcitavanjeBaze.db.getVeza().prepareStatement(upit, PreparedStatement.RETURN_GENERATED_KEYS);
+            izjava.setInt(1, predstavaId);
+            izjava.setInt(2, pozoristeId);
+            izjava.setDouble(3, cijena);
+            izjava.setTimestamp(4, datumIVrijeme);
             izjava.executeUpdate();
             ResultSet rs = izjava.getGeneratedKeys();
             rs.next();
