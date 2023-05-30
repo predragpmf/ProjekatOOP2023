@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pmf.projekatoop.gui.Posjetilac">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pmf.projekatoop.gui.Posjetilac">
    <children>
       <TabPane prefHeight="600.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -61,6 +61,6 @@
             </Tab>
         </tabs>
       </TabPane>
-      <Button layoutX="747.0" layoutY="2.0" mnemonicParsing="false" onAction="#nazadTipka" text="Odjava" />
+      <Button layoutX="747.0" layoutY="2.0" mnemonicParsing="false" onAction="#odjavaTipka" text="Odjava" />
    </children>
 </AnchorPane>

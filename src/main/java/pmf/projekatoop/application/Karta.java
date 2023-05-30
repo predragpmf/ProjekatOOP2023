@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Karta {
     private int id;
     private IzvodjenjePredstave izvodjenjePredstave;
-    private enum Statusi {
+    public enum Statusi {
         KUPLJENA,
         REZERVISANA,
         REZERVISANA_PREUZETA
@@ -67,6 +67,10 @@ public class Karta {
 
     public void setBrojKarta(int brojKarta) {
         this.brojKarta = brojKarta;
+    }
+
+    public void setStatus(Statusi status) {
+        this.status = status;
     }
 
     public static ArrayList<Karta> getKarteByPosjetilacId(int posjetilacId) {

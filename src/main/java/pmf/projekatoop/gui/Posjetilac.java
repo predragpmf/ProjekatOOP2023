@@ -27,21 +27,19 @@ public class Posjetilac extends Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //rezTextArea.clear();
+        // Rezervacija tab:
         for (String s : Pozoriste.getSpisakPozorista()) {
             rezTextArea.appendText(s);
             rezPozoristaCombo.getItems().add(s);
         }
 
-        //ktProsleTextArea.clear();
-        //ktNaredneTextArea.clear();
+        // Karte tab:
         ktComboBox.getItems().add("Rezervisane karte");
         ktComboBox.getItems().add("Istekle karte");
         ktOtkaziButton.setVisible(false);
         ktSpinner.setVisible(false);
 
-        //infoListView.getItems().clear();
-        //infoTextArea.clear();
+        // Informacije tab:
         for (Osoblje o : Osoblje.svoOsoblje) {
             infoListView.getItems().add(o.getId() + ". " + o);
         }
@@ -151,7 +149,6 @@ public class Posjetilac extends Controller implements Initializable {
                                 "Ostalo je manje od 48 sati da preuzmete rezervisanu kartu");
                     }
                     odabirTipaKarte();
-                    //System.out.println("Karta rezervisana!");
                     prozorObavjestenja("Gotovo", "Karta uspješno rezervisana!");
                 } else {
                     prozorObavjestenja("Greška", "Nije dostupno nijedno slobodno mjesto.");
@@ -171,8 +168,7 @@ public class Posjetilac extends Controller implements Initializable {
             for (Karta k : Karta.getKarteByPosjetilacId(Korisnik.prijavljeniKorisnik.getId())) {
                 IzvodjenjePredstave ip = k.getIzvodjenjePredstave();
                 if (ip.getDatumIVrijeme().getTime() > System.currentTimeMillis()) {
-                    ktListView.getItems().add(k.getId() + ". " + ip.toString() + ", karte: " + k.getBrojKarta());
-                    //ktTextArea.appendText(ip.toString() + ", karte: " + k.getBrojKarta() + "\n");
+                    ktListView.getItems().add(k.getId() + ". " + ip + ", karte: " + k.getBrojKarta());
                 }
             }
         } else if (ktComboBox.getValue().equals("Istekle karte")) {
@@ -182,13 +178,13 @@ public class Posjetilac extends Controller implements Initializable {
             for (Karta k : Karta.getKarteByPosjetilacId(Korisnik.prijavljeniKorisnik.getId())) {
                 IzvodjenjePredstave ip = k.getIzvodjenjePredstave();
                 if (ip.getDatumIVrijeme().getTime() < System.currentTimeMillis()) {
-                    ktListView.getItems().add(k.getId() + ". " + ip.toString() + ", karte: " + k.getBrojKarta());
-                    //ktTextArea.appendText(ip.toString() + ", karte: " + k.getBrojKarta() + "\n");
+                    ktListView.getItems().add(k.getId() + ". " + ip + ", karte: " + k.getBrojKarta());
                 }
             }
         }
     }
 
+    // Informacije - odabir infoListView
     public void odabirInformacije() {
         infoTextArea.clear();
         int osobljeId = Integer.parseInt(infoListView.getSelectionModel().getSelectedItem().split("\\.")[0]);
@@ -203,6 +199,7 @@ public class Posjetilac extends Controller implements Initializable {
         }
     }
 
+    // Karte - odabir ktListView
     public void odaberiKarte() {
         if (ktComboBox.getValue().equals("Rezervisane karte")) {
             String karta = ktListView.getSelectionModel().getSelectedItem();
@@ -213,31 +210,36 @@ public class Posjetilac extends Controller implements Initializable {
         }
     }
 
+    // Karte - otkazivanje tipka
     public void otkaziRezervaciju() {
         int idKarte = Integer.parseInt(ktListView.getSelectionModel().getSelectedItem().split("\\.")[0]);
         Karta karta = Karta.getKartaById(idKarte);
         int brojKarata = ktSpinner.getValue();
-        IzvodjenjePredstave ip = karta.getIzvodjenjePredstave();
-        if (ip != null) {
-            if ((System.currentTimeMillis() + 172800000) < ip.getDatumIVrijeme().getTime()) {
-                if (brojKarata == karta.getBrojKarta()) {
-                    IzmjenaBaze.brisanjeKarte(idKarte);
-                    Karta.sveKarte.remove(karta);
+        if (karta != null) {
+            IzvodjenjePredstave ip = karta.getIzvodjenjePredstave();
+            if (ip != null) {
+                if ((System.currentTimeMillis() + 172800000) < ip.getDatumIVrijeme().getTime()) {
+                    if (brojKarata == karta.getBrojKarta()) {
+                        IzmjenaBaze.brisanjeKarte(idKarte);
+                        Karta.sveKarte.remove(karta);
+                    } else {
+                        IzmjenaBaze.izmjenaKarte(karta.getBrojKarta() - brojKarata, idKarte);
+                        karta.setBrojKarta(karta.getBrojKarta() - brojKarata);
+                    }
+                    prozorObavjestenja("Gotovo", "Karte uspješno otkazane!");
+                    odabirTipaKarte();
                 } else {
-                    IzmjenaBaze.izmjenaKarte(karta.getBrojKarta() - brojKarata, idKarte);
-                    karta.setBrojKarta(karta.getBrojKarta() - brojKarata);
+                    prozorObavjestenja("Otkazivanje nije moguće", "Predstava počinje za manje od 48 sati!");
                 }
-                prozorObavjestenja("Gotovo", "Karte uspješno otkazane!");
-                odabirTipaKarte();
             } else {
-                prozorObavjestenja("Otkazivanje nije moguće", "Predstava počinje za manje od 48 sati!");
+                System.err.println("Izvodjenje predstave ne postoji! (Posjetilac.otkaziRezervaciju())");
             }
         } else {
-            System.err.println("Izvodjenje predstave ne postoji! (Posjetilac.otkaziRezervaciju())");
+            System.err.println("Karta ne postoji!");
         }
     }
 
-    public void nazadTipka(ActionEvent event) {
+    public void odjavaTipka(ActionEvent event) {
         promijeniScenuLogin(event);
     }
 

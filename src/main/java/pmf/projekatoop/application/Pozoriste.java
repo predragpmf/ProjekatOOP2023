@@ -8,6 +8,7 @@ public class Pozoriste {
     private String naziv;
     private String grad;
     private int brojSjedista;
+    private int brojRadnika;
 
     public static ArrayList<Pozoriste> svaPozorista = new ArrayList<>();
 
@@ -16,6 +17,7 @@ public class Pozoriste {
         this.naziv = naziv;
         this.grad = grad;
         this.brojSjedista = brojSjedista;
+        this.brojRadnika = 0;
         if (!vecPostoji()) {
             svaPozorista.add(this);
         } else {
@@ -66,6 +68,14 @@ public class Pozoriste {
 
     public int getBrojSjedista() {
         return brojSjedista;
+    }
+
+    public int getBrojRadnika() {
+        return brojRadnika;
+    }
+
+    public void povecajBrojRadnika() {
+        this.brojRadnika += 1;
     }
 
     public static ArrayList<String> getSpisakPozorista() {

@@ -152,4 +152,43 @@ public class IzmjenaBaze {
         return id;
     }
 
+    public static int posaljiRadnikPozorista(String ime, String prezime, String korisnickoIme, String lozinka,
+                                             int pozoristeId) {
+        int id = 0;
+        try {
+            String upit = "INSERT INTO radnik_pozorista(ime, prezime, korisnicko_ime, lozinka, pozoriste_id)  VALUES (?,?,?,?,?)";
+            PreparedStatement izjava = UcitavanjeBaze.db.getVeza().prepareStatement(upit, PreparedStatement.RETURN_GENERATED_KEYS);
+            izjava.setString(1, ime);
+            izjava.setString(2, prezime);
+            izjava.setString(3, korisnickoIme);
+            izjava.setString(4, lozinka);
+            izjava.setInt(5, pozoristeId);
+            izjava.executeUpdate();
+            ResultSet rs = izjava.getGeneratedKeys();
+            rs.next();
+            id = rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
+
+    public static int posaljiPozoriste(String naziv, String grad, int brojSjedista) {
+        int id = 0;
+        try {
+            String upit = "INSERT INTO pozoriste(naziv, grad, broj_sjedista)  VALUES (?,?,?)";
+            PreparedStatement izjava = UcitavanjeBaze.db.getVeza().prepareStatement(upit, PreparedStatement.RETURN_GENERATED_KEYS);
+            izjava.setString(1, naziv);
+            izjava.setString(2, grad);
+            izjava.setInt(3, brojSjedista);
+            izjava.executeUpdate();
+            ResultSet rs = izjava.getGeneratedKeys();
+            rs.next();
+            id = rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
+
 }

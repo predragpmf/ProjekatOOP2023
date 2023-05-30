@@ -18,6 +18,7 @@ public class RadnikPozorista extends Korisnik {
             this.korisnickoIme = korisnickoIme;
             this.lozinka = lozinka;
             if (!vecPostoji()) {
+                this.pozoriste.povecajBrojRadnika();
                 sviRadniciPozorista.add(this);
                 sviKorisnici.add(this);
             } else {

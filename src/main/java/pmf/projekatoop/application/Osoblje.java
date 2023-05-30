@@ -14,12 +14,15 @@ public class Osoblje {
     }
     private Tipovi tip;
 
+    private Integer brIzvodjenjaPredstava;
+
     public static ArrayList<Osoblje> svoOsoblje = new ArrayList<>();
 
     public Osoblje(int id, String ime, String prezime, int tip) {
         this.id = id;
         this.ime = ime;
         this.prezime = prezime;
+        this.brIzvodjenjaPredstava = 0;
         switch (tip) {
             case 1 -> this.tip = Tipovi.AUTOR;
             case 2 -> this.tip = Tipovi.REZISER;
@@ -79,6 +82,14 @@ public class Osoblje {
 
     public Tipovi getTip() {
         return tip;
+    }
+
+    public Integer getBrojIzvodjenja() {
+        return brIzvodjenjaPredstava;
+    }
+
+    public void povecajBrojIzvodjenja() {
+        this.brIzvodjenjaPredstava += 1;
     }
 
     @Override

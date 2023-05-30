@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pmf.projekatoop.gui.Radnik">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pmf.projekatoop.gui.Radnik">
    <children>
       <TabPane prefHeight="600.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -114,8 +114,60 @@
                   </AnchorPane>
               </content>
             </Tab>
+            <Tab text="Posjetioci">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ListView fx:id="posPpListView" layoutX="26.0" layoutY="61.0" onMouseClicked="#odabirPosjetioca" prefHeight="409.0" prefWidth="252.0" />
+                        <ListView fx:id="posKtListView" layoutX="299.0" layoutY="61.0" onMouseClicked="#odabirRezervacije" prefHeight="409.0" prefWidth="472.0" />
+                        <Button layoutX="335.0" layoutY="504.0" mnemonicParsing="false" onAction="#predajKarte" text="Predaj" />
+                        <Spinner fx:id="posKtSpinner" layoutX="415.0" layoutY="504.0" prefHeight="25.0" prefWidth="53.0" />
+                        <Button layoutX="495.0" layoutY="504.0" mnemonicParsing="false" onAction="#otkaziKarte" text="Otkaži" />
+                        <Text layoutX="26.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Posjetioci:" />
+                        <Text layoutX="299.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rezervacije:" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Osoblje">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ListView fx:id="osobljeListView" layoutX="87.0" layoutY="53.0" prefHeight="477.0" prefWidth="610.0" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Kreiranje">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="krImeTextBox" layoutX="96.0" layoutY="109.0" />
+                        <TextField fx:id="krPrezimeTextBox" layoutX="96.0" layoutY="178.0" />
+                        <TextField fx:id="krKorImeTextBox" layoutX="96.0" layoutY="247.0" />
+                        <PasswordField fx:id="krLozinkaTextBox" layoutX="95.0" layoutY="316.0" />
+                        <ComboBox fx:id="krPozComboBox" layoutX="95.0" layoutY="384.0" prefWidth="150.0" />
+                        <Button layoutX="121.0" layoutY="440.0" mnemonicParsing="false" onAction="#kreirajRadnika" text="Kreiraj radnika" />
+                        <Text layoutX="96.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ime:" />
+                        <Text layoutX="96.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prezime:" />
+                        <Text layoutX="96.0" layoutY="237.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Korisničko ime:" />
+                        <Text layoutX="96.0" layoutY="305.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lozinka:" />
+                        <Text layoutX="122.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Radnik pozorišta:" />
+                        <Text layoutX="96.0" layoutY="374.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pozorište:" />
+                        <TextField fx:id="krPozNazivTextBox" layoutX="359.0" layoutY="107.0" />
+                        <TextField fx:id="krPozGradTextBox" layoutX="359.0" layoutY="176.0" />
+                        <TextField fx:id="krPozSjedistaTextBox" layoutX="359.0" layoutY="245.0" />
+                        <Button layoutX="383.0" layoutY="302.0" mnemonicParsing="false" onAction="#kreirajPozoriste" text="Kreiraj pozorište" />
+                        <Text layoutX="359.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Naziv:" />
+                        <Text layoutX="363.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Grad:" />
+                        <Text layoutX="364.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Broj sjedišta:" />
+                        <Text layoutX="408.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pozorište:" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
         </tabs>
       </TabPane>
-      <Button layoutX="747.0" layoutY="2.0" mnemonicParsing="false" onAction="#nazadTipka" text="Odjava" />
+      <Button layoutX="747.0" layoutY="2.0" mnemonicParsing="false" onAction="#odjavaTipka" text="Odjava" />
    </children>
 </AnchorPane>

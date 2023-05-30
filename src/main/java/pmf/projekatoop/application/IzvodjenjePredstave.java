@@ -25,6 +25,11 @@ public class IzvodjenjePredstave {
         this.brojRezervisanihMjesta = 0;
         if (this.predstava != null && this.pozoriste != null) {
             if (!vecPostoji()) {
+                for (OsobljePredstave op : OsobljePredstave.svoOsobljePredstava) {
+                    if (op.getPredstava().equals(this.predstava)) {
+                        op.getOsoblje().povecajBrojIzvodjenja();
+                    }
+                }
                 svaIzvodjenjaPredstava.add(this);
             } else {
                 System.err.println("Termin izvodjenja predstave: " + id + " zauzet!");
