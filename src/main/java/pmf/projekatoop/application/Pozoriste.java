@@ -45,15 +45,6 @@ public class Pozoriste {
         return null;
     }
 
-    public static Pozoriste getPozoristeByNazivIGrad(String naziv, String grad) {
-        for (Pozoriste p : svaPozorista) {
-            if (p.getNaziv().equals(naziv) && p.getGrad().equals(grad)) {
-                return p;
-            }
-        }
-        return null;
-    }
-
     public int getId() {
         return id;
     }

@@ -69,14 +69,15 @@ public class Posjetilac extends Controller implements Initializable {
 
         if (rezPredstaveCombo.getValue() != null) {
             int izvodjenjePredstaveId = Integer.parseInt(rezPredstaveCombo.getValue().split("\\.")[0]);
-            IzvodjenjePredstave odabranoIzvodjenje = IzvodjenjePredstave.getIzvodjenjePredstaveById(izvodjenjePredstaveId);
+            IzvodjenjePredstave odabranoIzvodjenje = IzvodjenjePredstave
+                    .getIzvodjenjePredstaveById(izvodjenjePredstaveId);
             if (odabranoIzvodjenje != null) {
                 Predstava odabranaPredstava = odabranoIzvodjenje.getPredstava();
 
                 Osoblje autor = OsobljePredstave.getOsobljeByTip(odabranaPredstava.getId(), "AUTOR");
                 Osoblje reziser = OsobljePredstave.getOsobljeByTip(odabranaPredstava.getId(), "REZISER");
 
-                rezTextArea.appendText("Naziv: " + odabranaPredstava + "\n");
+                rezTextArea.appendText("Naziv: " + odabranaPredstava.getNaziv() + "\n");
                 rezTextArea.appendText("Žanr: " + odabranaPredstava.getZanr().toString() + "\n");
                 rezTextArea.appendText("Cijena: " + odabranoIzvodjenje.getCijena() + "KM \n");
                 rezTextArea.appendText("Termin: " + new Date(odabranoIzvodjenje.getDatumIVrijeme().getTime()) + "\n");
@@ -116,7 +117,7 @@ public class Posjetilac extends Controller implements Initializable {
                 rezTextArea.appendText(osoblje.getTip().toString() + "\n");
                 rezTextArea.appendText("Predstave:\n");
                 for (Predstava predstava : OsobljePredstave.getPredstaveByOsobljeId(osobljeId)) {
-                    rezTextArea.appendText(predstava + "\n");
+                    rezTextArea.appendText(predstava.getNaziv() + "\n");
                 }
             }
         }
@@ -140,15 +141,14 @@ public class Posjetilac extends Controller implements Initializable {
                             System.err.println("Karta ne postoji! (Posjetilac.rezervisiTipka())");
                         }
                     } else {
-                        int id = IzmjenaBaze.posaljiKarta(izvodjenjePredstaveId, 2, Korisnik.prijavljeniKorisnik.getId(),
-                                brojKarata);
+                        int id = IzmjenaBaze.posaljiKarta(izvodjenjePredstaveId, 2,
+                                Korisnik.prijavljeniKorisnik.getId(), brojKarata);
                         new Karta(id, izvodjenjePredstaveId, 2, Korisnik.prijavljeniKorisnik.getId(), brojKarata);
                     }
                     if (ip.getDatumIVrijeme().getTime() < 172800000) {
                         prozorObavjestenja("Upozorenje!",
                                 "Ostalo je manje od 48 sati da preuzmete rezervisanu kartu");
                     }
-                    odabirTipaKarte();
                     prozorObavjestenja("Gotovo", "Karta uspješno rezervisana!");
                 } else {
                     prozorObavjestenja("Greška", "Nije dostupno nijedno slobodno mjesto.");
@@ -194,7 +194,7 @@ public class Posjetilac extends Controller implements Initializable {
             infoTextArea.appendText(osoblje.getTip().toString() + "\n");
             infoTextArea.appendText("Predstave:\n");
             for (Predstava predstava : OsobljePredstave.getPredstaveByOsobljeId(osobljeId)) {
-                infoTextArea.appendText(predstava + "\n");
+                infoTextArea.appendText(predstava.getNaziv() + "\n");
             }
         }
     }

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class RadnikPozorista extends Korisnik {
 
     private Pozoriste pozoriste;
-    
+
     public static ArrayList<RadnikPozorista> sviRadniciPozorista = new ArrayList<>();
 
     public RadnikPozorista(int id, String ime, String prezime,

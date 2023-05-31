@@ -5,11 +5,13 @@ import java.util.ArrayList;
 public class Karta {
     private int id;
     private IzvodjenjePredstave izvodjenjePredstave;
+
     public enum Statusi {
         KUPLJENA,
         REZERVISANA,
         REZERVISANA_PREUZETA
     }
+
     private Statusi status;
     private PosjetilacPozorista posjetilacPozorista;
     private int brojKarta;

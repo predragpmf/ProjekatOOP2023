@@ -3,18 +3,16 @@ package pmf.projekatoop.application;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 
 public class IzvodjenjePredstave {
 
+    public static ArrayList<IzvodjenjePredstave> svaIzvodjenjaPredstava = new ArrayList<>();
     private int id;
     private Predstava predstava;
     private Pozoriste pozoriste;
     private double cijena;
     private Timestamp datumIVrijeme;
     private int brojRezervisanihMjesta;
-
-    public static ArrayList<IzvodjenjePredstave> svaIzvodjenjaPredstava = new ArrayList<>();
 
     public IzvodjenjePredstave(int id, int predstavaId, int pozoristeId, double cijena, Timestamp datumIVrijeme) {
         this.id = id;
@@ -37,16 +35,6 @@ public class IzvodjenjePredstave {
         }
     }
 
-    private boolean vecPostoji() {
-        for (IzvodjenjePredstave ip : svaIzvodjenjaPredstava) {
-            if (ip.getDatumIVrijeme().getTime() == this.getDatumIVrijeme().getTime() &&
-                    ip.getPozoriste().getId() == this.pozoriste.getId()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public static IzvodjenjePredstave getIzvodjenjePredstaveById(int izvodjenjePredstaveId) {
         for (IzvodjenjePredstave ip : svaIzvodjenjaPredstava) {
             if (ip.getId() == izvodjenjePredstaveId) {
@@ -56,6 +44,28 @@ public class IzvodjenjePredstave {
         System.err.println("(.getIzvodjenjePredstaveById) Izvodjenje predstave sa id: " + izvodjenjePredstaveId +
                 " nije pronadjeno!");
         return null;
+    }
+
+    public static ArrayList<IzvodjenjePredstave> getNarednePredstavePozorista(Pozoriste p) {
+        ArrayList<IzvodjenjePredstave> predstave = new ArrayList<>();
+        for (IzvodjenjePredstave ip : svaIzvodjenjaPredstava) {
+            if (ip.getPozoriste().equals(p)) {
+                if (ip.getDatumIVrijeme().getTime() > System.currentTimeMillis()) {
+                    predstave.add(ip);
+                }
+            }
+        }
+        return predstave;
+    }
+
+    private boolean vecPostoji() {
+        for (IzvodjenjePredstave ip : svaIzvodjenjaPredstava) {
+            if (ip.getDatumIVrijeme().getTime() == this.getDatumIVrijeme().getTime() &&
+                    ip.getPozoriste().getId() == this.pozoriste.getId()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public int getId() {
@@ -86,31 +96,9 @@ public class IzvodjenjePredstave {
         this.brojRezervisanihMjesta += brojRezervisanihMjesta;
     }
 
-    public static ArrayList<IzvodjenjePredstave> getNarednePredstavePozorista(Pozoriste p) {
-        ArrayList<IzvodjenjePredstave> predstave = new ArrayList<>();
-        for (IzvodjenjePredstave ip : svaIzvodjenjaPredstava) {
-            if (ip.getPozoriste().equals(p)) {
-                if (ip.getDatumIVrijeme().getTime() > System.currentTimeMillis()) {
-                    predstave.add(ip);
-                }
-            }
-        }
-        return predstave;
-    }
-
-    public static ArrayList<Predstava> getSvePredstavePozorista(Pozoriste p) {
-        ArrayList<Predstava> predstave = new ArrayList<>();
-        for (IzvodjenjePredstave ip : svaIzvodjenjaPredstava) {
-            if (ip.getPozoriste().equals(p)) {
-                predstave.add(ip.getPredstava());
-            }
-        }
-        return predstave;
-    }
-
     @Override
     public String toString() {
         Date datum = new Date(this.getDatumIVrijeme().getTime());
-        return this.predstava.getNaziv()  + ", " + this.pozoriste.getNaziv()  + ", " + datum;
+        return this.predstava.getNaziv() + ", " + this.pozoriste.getNaziv() + ", " + datum;
     }
 }

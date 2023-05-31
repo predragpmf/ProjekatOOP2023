@@ -184,14 +184,16 @@ public class Radnik extends Controller implements Initializable {
         Pozoriste pozoriste = rp.getPozoriste();
         if (pozoristeComboBox.getValue().equals("Naredne")) {
             for (IzvodjenjePredstave ip : IzvodjenjePredstave.svaIzvodjenjaPredstava) {
-                if (ip.getPozoriste().equals(pozoriste) && ip.getDatumIVrijeme().getTime() > System.currentTimeMillis()) {
+                if (ip.getPozoriste().equals(pozoriste) &&
+                        ip.getDatumIVrijeme().getTime() > System.currentTimeMillis()) {
                     pozoristeListView.getItems().add(ip.getId() + ". " + ip.getPredstava().getNaziv() + " " +
                             ip.getDatumIVrijeme());
                 }
             }
         } else if (pozoristeComboBox.getValue().equals("Prošle")) {
             for (IzvodjenjePredstave ip : IzvodjenjePredstave.svaIzvodjenjaPredstava) {
-                if (ip.getPozoriste().equals(pozoriste) && ip.getDatumIVrijeme().getTime() < System.currentTimeMillis()) {
+                if (ip.getPozoriste().equals(pozoriste) &&
+                        ip.getDatumIVrijeme().getTime() < System.currentTimeMillis()) {
                     pozoristeListView.getItems().add(ip.getId() + ". " + ip.getPredstava().getNaziv() + " " +
                             ip.getDatumIVrijeme());
                 }
@@ -258,7 +260,6 @@ public class Radnik extends Controller implements Initializable {
             String odabirIp = ktIpListView.getSelectionModel().getSelectedItem();
             int idPosjetiocaPozorista = Integer.parseInt(odabirPp.split("\\.")[0]);
             int idIzvodjenjaPredstave = Integer.parseInt(odabirIp.split("\\.")[0]);
-            PosjetilacPozorista pp = PosjetilacPozorista.getPosjetilacPozoristaById(idPosjetiocaPozorista);
             IzvodjenjePredstave ip = IzvodjenjePredstave.getIzvodjenjePredstaveById(idIzvodjenjaPredstave);
             int brojKarata = ktSpinner.getValue();
             if (ip != null) {
@@ -322,7 +323,8 @@ public class Radnik extends Controller implements Initializable {
                 System.out.println("Reziser dodat");
 
                 for (String glumci : odabraniGlumci) {
-                    Osoblje glumac = Osoblje.getOsobljeByImeIPrezime(glumci.split(" ")[0], glumci.split(" ")[1]);
+                    Osoblje glumac = Osoblje.getOsobljeByImeIPrezime(glumci.split(" ")[0],
+                            glumci.split(" ")[1]);
                     if (glumac != null) {
                         int idGlumcaPredstave = IzmjenaBaze.posaljiOsobljePredstave(glumac.getId(), predstava.getId());
                         new OsobljePredstave(idGlumcaPredstave, glumac.getId(), predstava.getId());
@@ -334,6 +336,10 @@ public class Radnik extends Controller implements Initializable {
                 ispisiOsoblje();
                 predNazivTextBox.clear();
                 prozorObavjestenja("Gotovo", "Dodata nova predstava!");
+                tmPredstaveListView.getItems().clear();
+                for (Predstava p : Predstava.svePredstave) {
+                    tmPredstaveListView.getItems().add(p.getNaziv());
+                }
             } else {
                 System.err.println("Pogresan unos!");
             }
@@ -388,7 +394,7 @@ public class Radnik extends Controller implements Initializable {
         calendar.set(Calendar.MINUTE, minute);
         Timestamp termin = new Timestamp(calendar.getTimeInMillis());
         double cijena = Double.parseDouble(tmCijena.getText());
-        Pozoriste pozoriste = ((RadnikPozorista)Korisnik.prijavljeniKorisnik).getPozoriste();
+        Pozoriste pozoriste = ((RadnikPozorista) Korisnik.prijavljeniKorisnik).getPozoriste();
         Predstava predstava = Predstava.getPredstavaByNaziv(tmPredstaveListView.getSelectionModel().getSelectedItem());
         if (predstava != null) {
             int id = IzmjenaBaze.posaljiIzvodjenjePredstave(predstava.getId(), pozoriste.getId(), cijena, termin);
@@ -408,15 +414,15 @@ public class Radnik extends Controller implements Initializable {
         String odabraniPosjetilac = posPpListView.getSelectionModel().getSelectedItem();
         int idPosjetioca = Integer.parseInt(odabraniPosjetilac.split("\\.")[0]);
         PosjetilacPozorista pp = PosjetilacPozorista.getPosjetilacPozoristaById(idPosjetioca);
-        Pozoriste pozoriste = ((RadnikPozorista)Korisnik.prijavljeniKorisnik).getPozoriste();
+        Pozoriste pozoriste = ((RadnikPozorista) Korisnik.prijavljeniKorisnik).getPozoriste();
 
         for (Karta karta : Karta.sveKarte) {
             if (karta.getPosjetilacPozorista().equals(pp) &&
                     karta.getIzvodjenjePredstave().getPozoriste().equals(pozoriste)) {
-                    posKtListView.getItems().add(karta.getId() + ". " +
-                            karta.getIzvodjenjePredstave().getPredstava().getNaziv() + ", " +
-                            karta.getIzvodjenjePredstave().getDatumIVrijeme() + ", broj: " + karta.getBrojKarta() +
-                            ", status: " + karta.getStatus().toString());
+                posKtListView.getItems().add(karta.getId() + ". " +
+                        karta.getIzvodjenjePredstave().getPredstava().getNaziv() + ", " +
+                        karta.getIzvodjenjePredstave().getDatumIVrijeme() + ", broj: " + karta.getBrojKarta() +
+                        ", status: " + karta.getStatus().toString());
             }
         }
     }
@@ -427,7 +433,6 @@ public class Radnik extends Controller implements Initializable {
         int idKarte = Integer.parseInt(odabranaKarta.split("\\.")[0]);
         Karta karta = Karta.getKartaById(idKarte);
         if (karta != null) {
-            IzvodjenjePredstave ip = karta.getIzvodjenjePredstave();
             int maksBrojKarata = karta.getBrojKarta();
             SpinnerValueFactory<Integer> brojKarata = new SpinnerValueFactory
                     .IntegerSpinnerValueFactory(1, maksBrojKarata, 1);
@@ -497,11 +502,11 @@ public class Radnik extends Controller implements Initializable {
         String odabranoPozoriste = krPozComboBox.getValue();
         int idPozorista = Integer.parseInt(odabranoPozoriste.split("\\.")[0]);
         Pozoriste pozoriste = Pozoriste.getPozoristeById(idPozorista);
-        RadnikPozorista rp = (RadnikPozorista)Korisnik.prijavljeniKorisnik;
+        RadnikPozorista rp = (RadnikPozorista) Korisnik.prijavljeniKorisnik;
         if (pozoriste != null) {
             if (pozoriste.equals(rp.getPozoriste()) || pozoriste.getBrojRadnika() == 0) {
                 int id = IzmjenaBaze.posaljiRadnikPozorista(ime, prezime, korisnickoIme, hesLozinka, idPozorista);
-                new RadnikPozorista(id, ime, prezime, korisnickoIme, lozinka, idPozorista);
+                new RadnikPozorista(id, ime, prezime, korisnickoIme, hesLozinka, idPozorista);
                 prozorObavjestenja("Gotovo", "Kreiran novi radnik");
                 krImeTextBox.clear();
                 krPrezimeTextBox.clear();

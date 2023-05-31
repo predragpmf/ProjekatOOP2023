@@ -6,6 +6,7 @@ public class Predstava {
 
     private int id;
     private String naziv;
+
     public enum Zanrovi {
         KOMEDIJA,
         FARSA,
@@ -15,6 +16,7 @@ public class Predstava {
         ISTORIJA,
         MJUZIKL
     }
+
     private Zanrovi zanr;
 
     public static ArrayList<Predstava> svePredstave = new ArrayList<>();
@@ -92,8 +94,4 @@ public class Predstava {
         return null;
     }
 
-    @Override
-    public String toString() {
-        return this.naziv;
-    }
 }

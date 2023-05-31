@@ -12,8 +12,10 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import pmf.projekatoop.application.Korisnik;
 import pmf.projekatoop.application.RadnikPozorista;
+
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class Login extends Controller implements Initializable {
@@ -37,11 +39,13 @@ public class Login extends Controller implements Initializable {
                 stage.setResizable(false);
                 Korisnik.prijavljeniKorisnik = korisnik;
                 if (korisnik instanceof RadnikPozorista) {
-                    Parent radnikParent = FXMLLoader.load(getClass().getResource("radnikView.fxml"));
+                    Parent radnikParent = FXMLLoader.load(Objects.requireNonNull(getClass()
+                            .getResource("radnikView.fxml")));
                     Scene radnikScene = new Scene(radnikParent, 800, 600);
                     stage.setScene(radnikScene);
                 } else {
-                    Parent posjetilacParent = FXMLLoader.load(getClass().getResource("posjetilacView.fxml"));
+                    Parent posjetilacParent = FXMLLoader.load(Objects.requireNonNull(getClass()
+                            .getResource("posjetilacView.fxml")));
                     Scene posjetilacScene = new Scene(posjetilacParent, 800, 600);
                     stage.setScene(posjetilacScene);
                 }
@@ -60,7 +64,8 @@ public class Login extends Controller implements Initializable {
 
     public void promijeniScenuRegistracija(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Parent registracijaParent = FXMLLoader.load(getClass().getResource("registracijaView.fxml"));
+        Parent registracijaParent = FXMLLoader.load(Objects.requireNonNull(getClass()
+                .getResource("registracijaView.fxml")));
         Scene registracijaScene = new Scene(registracijaParent);
         stage.setScene(registracijaScene);
         stage.setResizable(false);

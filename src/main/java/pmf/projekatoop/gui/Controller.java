@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Objects;
 
 public class Controller {
 
@@ -44,7 +45,8 @@ public class Controller {
     protected void promijeniScenuLogin(ActionEvent event) {
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            Parent loginParent = FXMLLoader.load(getClass().getResource("loginView.fxml"));
+            Parent loginParent = FXMLLoader.load(Objects.requireNonNull(getClass()
+                    .getResource("loginView.fxml")));
             Scene loginScene = new Scene(loginParent);
             stage.setResizable(false);
             stage.setScene(loginScene);

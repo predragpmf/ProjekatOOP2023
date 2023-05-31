@@ -7,11 +7,13 @@ public class Osoblje {
     private int id;
     private String ime;
     private String prezime;
+
     public enum Tipovi {
         AUTOR,
         REZISER,
         GLUMAC
     }
+
     private Tipovi tip;
 
     private Integer brIzvodjenjaPredstava;
@@ -96,4 +98,5 @@ public class Osoblje {
     public String toString() {
         return this.ime + " " + this.prezime;
     }
+
 }
